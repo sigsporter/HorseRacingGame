@@ -1,5 +1,6 @@
 from dice import Dice
 from horse import Horse
+import matplotlib.pyplot as plt
 
 dice = Dice()
 
@@ -18,16 +19,28 @@ horses = [h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12]
 
 gameOver = False
 rolls = []
+winning_horses = []
+count = 0
 
-while gameOver == False:
-    roll = dice.roll()
-    rolls.append(roll)
-    for horse in horses:
-        if roll == horse.lane:
-            horse.position += 1
-        if horse.position == horse.rolls_to_win:
-            gameOver = True
-            winningHorse = horse
+while count < 150:
+    gameOver = False
+    while gameOver == False:
+        roll = dice.roll()
+        rolls.append(roll)
+        for horse in horses:
+            if roll == horse.lane:
+                horse.position += 1
+            if horse.position == horse.rolls_to_win:
+                gameOver = True
+                winningHorse = horse
+                
+    winning_horses.append(winningHorse.lane)
+    print(winningHorse.lane, ' ', count)
+    count += 1
 
-print(f"Game over! Horse {winningHorse.lane} won! It took ", len(rolls), " rolls to win.")
-print(rolls)
+plt.hist(winning_horses, bins=[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+plt.show()
+
+
+    # print(f"Game over! Horse {winningHorse.lane} won! It took ", len(rolls), " rolls to win.")
+    # print(rolls)
